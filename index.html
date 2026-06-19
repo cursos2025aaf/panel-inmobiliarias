@@ -6,156 +6,222 @@
 <title>IAGENTES.TECH — Panel Inmobiliario</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f1f5f9;color:#1e293b;min-height:100vh;padding-bottom:48px;}
-/* ── HEADER ── */
-.hdr{background:#0A2540;border-bottom:3px solid #16a34a;padding:11px 28px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;position:sticky;top:0;z-index:200;}
-.logo-wrap{display:flex;align-items:center;gap:8px;}
-.logo-text{font-size:1.15rem;font-weight:900;line-height:1;white-space:nowrap;}
+:root{
+  --navy:#0A2540;
+  --verde:#16a34a;
+  --verde-light:#dcfce7;
+  --verde-dark:#15803d;
+  --amarillo:#f59e0b;
+  --rojo:#dc2626;
+  --azul:#2563eb;
+  --gris:#64748b;
+  --bg:#f8fafc;
+  --white:#ffffff;
+  --border:#e2e8f0;
+  --text:#0f172a;
+  --text-soft:#475569;
+  --text-muted:#94a3b8;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* ── LAYOUT PRINCIPAL ── */
+.app-layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh;}
+
+/* ── SIDEBAR ── */
+.sidebar{background:var(--navy);color:#fff;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.sidebar-logo{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.1);}
+.logo-text{font-size:1.1rem;font-weight:900;line-height:1;}
 .logo-text .li{color:#3B82F6;font-style:italic;}
-.logo-text .la{color:#ffffff;}
+.logo-text .la{color:#fff;}
 .logo-text .lt{color:#3B82F6;}
-.logo-tag{background:#16a34a;color:#fff;font-size:.55rem;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:.5px;white-space:nowrap;}
-.hdr-center{text-align:center;font-size:.85rem;font-weight:600;color:#e2e8f0;}
-/* ── MAIN ── */
-.main{padding:14px 28px;max-width:1500px;margin:0 auto;}
-/* ── SECTION TITLE ── */
-.stitle{font-size:.67rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#64748b;margin-bottom:10px;margin-top:20px;display:flex;align-items:center;gap:8px;}
-.stitle::after{content:'';flex:1;height:1px;background:#e2e8f0;}
-.stitle-sub{font-size:.6rem;color:#94a3b8;font-weight:400;text-transform:none;letter-spacing:0;}
-/* ── DASHBOARD KPIs ── */
-.kpi-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;}
-.kpi-tile{background:#fff;border-radius:10px;padding:14px 10px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.07);border-top:3px solid #16a34a;}
-.kpi-count{font-size:1.7rem;font-weight:800;color:#0f172a;}
-.kpi-label{font-size:.59rem;color:#94a3b8;margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;}
-.kpi-sub{font-size:.65rem;font-weight:700;color:#16a34a;margin-top:1px;}
-/* ── DOS COLUMNAS ── */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-/* ── TABLA CARTERA ── */
-.table-wrap{background:#fff;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden;}
-.prop-table{width:100%;border-collapse:collapse;}
-.prop-table th{background:#0A2540;color:#e2e8f0;font-size:.65rem;font-weight:700;padding:9px 12px;text-align:left;letter-spacing:.4px;text-transform:uppercase;}
-.prop-table td{padding:9px 12px;font-size:.75rem;border-bottom:1px solid #f1f5f9;color:#1e293b;vertical-align:middle;}
-.prop-table tr:hover td{background:#f8fafc;}
-.prop-table tr:last-child td{border-bottom:none;}
+.logo-tag{background:var(--verde);color:#fff;font-size:.5rem;font-weight:700;padding:2px 7px;border-radius:20px;letter-spacing:.5px;display:inline-block;margin-top:6px;}
+.sidebar-fecha{padding:12px 18px;font-size:.62rem;color:rgba(255,255,255,.45);border-bottom:1px solid rgba(255,255,255,.08);}
+.sidebar-kpis{padding:14px 18px;display:flex;flex-direction:column;gap:10px;}
+.kpi-item{background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px;border-left:3px solid var(--verde);}
+.kpi-item.amarillo{border-left-color:var(--amarillo);}
+.kpi-item.rojo{border-left-color:var(--rojo);}
+.kpi-item.azul{border-left-color:#3B82F6;}
+.kpi-num{font-size:1.6rem;font-weight:800;color:#fff;line-height:1;}
+.kpi-lbl{font-size:.58rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;margin-top:3px;}
+.kpi-sub{font-size:.62rem;color:rgba(255,255,255,.35);margin-top:1px;}
+.sidebar-nav{padding:14px 10px;margin-top:auto;border-top:1px solid rgba(255,255,255,.08);}
+.nav-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.6);cursor:pointer;transition:all .15s;}
+.nav-item:hover{background:rgba(255,255,255,.08);color:#fff;}
+.nav-item.active{background:var(--verde);color:#fff;}
+
+/* ── CONTENIDO PRINCIPAL ── */
+.main-content{padding:20px 24px;overflow-y:auto;}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.page-title{font-size:1.1rem;font-weight:800;color:var(--text);}
+.page-sub{font-size:.72rem;color:var(--text-muted);margin-top:2px;}
+.btn-primary{background:var(--verde);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:.75rem;font-weight:700;cursor:pointer;transition:background .15s;}
+.btn-primary:hover{background:var(--verde-dark);}
+
+/* ── SECCIÓN TITLE ── */
+.stitle{font-size:.62rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;margin-top:20px;display:flex;align-items:center;gap:8px;}
+.stitle::after{content:'';flex:1;height:1px;background:var(--border);}
+.stitle:first-child{margin-top:0;}
+
+/* ── CARDS PROPIEDADES ── */
+.props-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;}
+.prop-card{background:var(--white);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.06);overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;border:1px solid var(--border);}
+.prop-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1);}
+.prop-img{height:120px;background:linear-gradient(135deg,#e2e8f0 0%,#cbd5e1 100%);display:flex;align-items:center;justify-content:center;position:relative;}
+.prop-img-icon{font-size:2.5rem;opacity:.3;}
+.prop-tipo-badge{position:absolute;top:8px;left:8px;font-size:.55rem;font-weight:800;padding:3px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:.4px;}
+.tb-alquiler{background:#dbeafe;color:#1d4ed8;}
+.tb-venta{background:#fef9c3;color:#854d0e;}
+.tb-comercial{background:#fce7f3;color:#9d174d;}
+.tb-temporal{background:#f0fdf4;color:#15803d;}
+.prop-estado-badge{position:absolute;top:8px;right:8px;}
+.prop-body{padding:12px 14px;}
+.prop-dir{font-size:.82rem;font-weight:700;color:var(--text);line-height:1.3;}
+.prop-notas{font-size:.62rem;color:var(--text-muted);margin-top:3px;}
+.prop-precio{font-size:1.1rem;font-weight:800;color:var(--verde-dark);margin-top:8px;}
+.prop-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+.prop-corredor{font-size:.62rem;color:var(--text-muted);}
+.prop-corredor span{font-weight:700;color:var(--text-soft);}
+.prop-dias{font-size:.62rem;font-weight:700;}
+
+/* ── BADGES ESTADO ── */
 .badge{display:inline-block;font-size:.55rem;font-weight:800;padding:2px 7px;border-radius:4px;letter-spacing:.4px;text-transform:uppercase;}
 .b-disponible{background:#dcfce7;color:#15803d;}
 .b-reservada{background:#fef9c3;color:#854d0e;}
 .b-alquilada{background:#dbeafe;color:#1d4ed8;}
 .b-vendida{background:#f1f5f9;color:#64748b;}
 .b-tasacion{background:#fce7f3;color:#9d174d;}
-.tipo-badge{font-size:.55rem;font-weight:700;padding:2px 6px;border-radius:4px;background:#f1f5f9;color:#475569;}
+
+/* ── DOS COLUMNAS ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
 /* ── ALERTAS ── */
-.alertas-list{display:flex;flex-direction:column;gap:6px;}
-.alerta-item{display:flex;align-items:flex-start;gap:10px;background:#fff;border-radius:10px;padding:10px 14px;box-shadow:0 1px 4px rgba(0,0,0,.07);border-left:4px solid #e2e8f0;}
-.alerta-item.critico{border-left-color:#dc2626;}
-.alerta-item.atencion{border-left-color:#f59e0b;}
-.alerta-item.info{border-left-color:#3B82F6;}
-.alerta-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
-.alerta-item.critico .alerta-dot{background:#dc2626;}
-.alerta-item.atencion .alerta-dot{background:#f59e0b;}
-.alerta-item.info .alerta-dot{background:#3B82F6;}
-.alerta-text{font-size:.75rem;font-weight:600;color:#0f172a;line-height:1.3;}
-.alerta-meta{font-size:.62rem;color:#94a3b8;margin-top:2px;}
-/* ── ADMINISTRACION ALQUILERES ── */
-.alq-grid{display:grid;grid-template-columns:1fr;gap:6px;}
-.alq-item{background:#fff;border-radius:10px;padding:12px 14px;box-shadow:0 1px 4px rgba(0,0,0,.07);display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:8px;align-items:center;}
-.alq-dir{font-size:.75rem;font-weight:700;color:#0f172a;}
-.alq-inq{font-size:.62rem;color:#64748b;margin-top:2px;}
-.alq-val{font-size:.72rem;font-weight:700;color:#0f172a;text-align:right;}
-.alq-val-label{font-size:.55rem;color:#94a3b8;text-align:right;}
-.alq-fecha{font-size:.65rem;color:#475569;text-align:center;}
-.alq-fecha-label{font-size:.55rem;color:#94a3b8;text-align:center;}
-.semaforo{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.sem-verde{background:#16a34a;}
-.sem-amarillo{background:#f59e0b;}
-.sem-rojo{background:#dc2626;}
-/* ── ACCIONES ── */
-.actions-bar{display:flex;gap:8px;padding:10px 14px;border-top:1px solid #f1f5f9;background:#f8fafc;flex-wrap:wrap;}
-.btn-add{background:#f1f5f9;border:1px dashed #cbd5e1;border-radius:6px;padding:5px 12px;font-size:.72rem;font-weight:600;color:#64748b;cursor:pointer;}
-.btn-add:hover{background:#e2e8f0;}
-.btn-primary{background:#16a34a;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:.72rem;font-weight:700;cursor:pointer;}
-.btn-primary:hover{background:#15803d;}
+.alertas-wrap{background:var(--white);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.06);overflow:hidden;border:1px solid var(--border);}
+.alerta-item{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;}
+.alerta-item:last-child{border-bottom:none;}
+.alerta-item:hover{background:#f8fafc;}
+.alerta-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.ai-critico{background:#fee2e2;}
+.ai-atencion{background:#fef9c3;}
+.ai-info{background:#dbeafe;}
+.alerta-content{flex:1;}
+.alerta-text{font-size:.75rem;font-weight:700;color:var(--text);}
+.alerta-meta{font-size:.62rem;color:var(--text-muted);margin-top:2px;line-height:1.4;}
+.alerta-nivel{font-size:.55rem;font-weight:800;padding:2px 6px;border-radius:4px;text-transform:uppercase;}
+.an-critico{background:#fee2e2;color:#dc2626;}
+.an-atencion{background:#fef9c3;color:#854d0e;}
+.an-info{background:#dbeafe;color:#1d4ed8;}
+
+/* ── ALQUILERES ── */
+.alq-wrap{background:var(--white);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.06);overflow:hidden;border:1px solid var(--border);}
+.alq-item{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 40px;gap:8px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;}
+.alq-item:hover{background:#f8fafc;}
+.alq-item:last-child{border-bottom:none;}
+.alq-item-header{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 40px;gap:8px;padding:8px 16px;background:#f8fafc;border-bottom:1px solid var(--border);}
+.alq-th{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);}
+.alq-dir{font-size:.75rem;font-weight:700;color:var(--text);}
+.alq-inq{font-size:.62rem;color:var(--text-muted);margin-top:1px;}
+.alq-val{font-size:.75rem;font-weight:700;color:var(--verde-dark);}
+.alq-fecha{font-size:.68rem;color:var(--text-soft);text-align:center;}
+.semaforo{width:12px;height:12px;border-radius:50%;margin:0 auto;}
+.sem-verde{background:var(--verde);}
+.sem-amarillo{background:var(--amarillo);}
+.sem-rojo{background:var(--rojo);}
+
+/* ── CORREDORES ── */
+.corr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.corr-card{background:var(--white);border-radius:10px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.corr-avatar{width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;flex-shrink:0;}
+.corr-info{flex:1;}
+.corr-nombre{font-size:.75rem;font-weight:700;color:var(--text);}
+.corr-ops{font-size:.65rem;color:var(--text-muted);}
+.corr-num{font-size:1.2rem;font-weight:800;color:var(--verde);}
+
+/* ── BOTONES ── */
+.btn-add{background:var(--bg);border:1px dashed #cbd5e1;border-radius:6px;padding:5px 12px;font-size:.72rem;font-weight:600;color:var(--gris);cursor:pointer;transition:background .15s;}
+.btn-add:hover{background:var(--border);}
+.actions-bar{padding:10px 16px;border-top:1px solid var(--border);background:#f8fafc;}
+
 /* ── MODAL ── */
 .moverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;align-items:center;justify-content:center;padding:20px;}
 .moverlay.open{display:flex;}
 .modal{background:#fff;border-radius:16px;padding:24px;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto;}
-.modal h3{font-size:1rem;font-weight:700;margin-bottom:14px;color:#0f172a;}
-.modal label{font-size:.72rem;font-weight:700;color:#64748b;display:block;margin-bottom:4px;margin-top:12px;}
-.modal input,.modal select,.modal textarea{width:100%;font-size:.82rem;border:1px solid #e2e8f0;border-radius:8px;padding:8px 12px;outline:none;color:#0f172a;background:#fff;}
-.modal input:focus,.modal select:focus{border-color:#16a34a;}
+.modal h3{font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--text);}
+.modal label{font-size:.72rem;font-weight:700;color:var(--gris);display:block;margin-bottom:4px;margin-top:12px;}
+.modal input,.modal select,.modal textarea{width:100%;font-size:.82rem;border:1px solid var(--border);border-radius:8px;padding:8px 12px;outline:none;color:var(--text);background:#fff;}
+.modal input:focus,.modal select:focus{border-color:var(--verde);}
 .mactions{display:flex;gap:8px;margin-top:18px;}
-.mbtn-save{flex:1;background:#16a34a;color:#fff;border:none;border-radius:8px;padding:10px;font-size:.82rem;font-weight:700;cursor:pointer;}
-.mbtn-save:hover{background:#15803d;}
-.mbtn-cancel{background:#f1f5f9;color:#64748b;border:none;border-radius:8px;padding:10px 16px;font-size:.82rem;cursor:pointer;}
-.mbtn-del{background:#fee2e2;color:#dc2626;border:none;border-radius:8px;padding:10px 16px;font-size:.82rem;cursor:pointer;}
-/* ── CORREDORES ── */
-.corr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
-.corr-tile{background:#fff;border-radius:10px;padding:12px;box-shadow:0 1px 4px rgba(0,0,0,.07);text-align:center;}
-.corr-nombre{font-size:.75rem;font-weight:700;color:#0f172a;}
-.corr-ops{font-size:1.4rem;font-weight:800;color:#16a34a;margin-top:4px;}
-.corr-label{font-size:.58rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.4px;}
+.mbtn-save{flex:1;background:var(--verde);color:#fff;border:none;border-radius:8px;padding:10px;font-size:.82rem;font-weight:700;cursor:pointer;}
+.mbtn-save:hover{background:var(--verde-dark);}
+.mbtn-cancel{background:#f1f5f9;color:var(--gris);border:none;border-radius:8px;padding:10px 16px;font-size:.82rem;cursor:pointer;}
+.mbtn-del{background:#fee2e2;color:var(--rojo);border:none;border-radius:8px;padding:10px 16px;font-size:.82rem;cursor:pointer;}
+
 /* ── RESPONSIVE ── */
-@media(max-width:900px){.kpi-grid{grid-template-columns:repeat(3,1fr);}.two-col{grid-template-columns:1fr;}.alq-item{grid-template-columns:1fr 1fr;}.corr-grid{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:500px){.kpi-grid{grid-template-columns:repeat(2,1fr);}.main{padding:10px 12px;}}
+@media(max-width:1024px){.app-layout{grid-template-columns:1fr;}.sidebar{height:auto;position:relative;}.sidebar-kpis{flex-direction:row;flex-wrap:wrap;}.kpi-item{flex:1;min-width:120px;}.corr-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.props-grid{grid-template-columns:1fr;}.two-col{grid-template-columns:1fr;}.alq-item{grid-template-columns:1fr 1fr;}.alq-item-header{display:none;}}
 </style>
 </head>
 <body>
-<div class="hdr">
-  <div class="logo-wrap">
-    <div class="logo-text"><span class="li">i</span><span class="la">AGENTES</span><span class="lt">.TECH</span></div>
-    <span class="logo-tag">🏠 PANEL INMOBILIARIO</span>
-  </div>
-  <div class="hdr-center" id="fecha"></div>
-  <div style="font-size:.7rem;color:#94a3b8;">v1.0</div>
-</div>
+<div class="app-layout">
 
-<div class="main">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-text"><span class="li">i</span><span class="la">AGENTES</span><span class="lt">.TECH</span></div>
+      <div class="logo-tag">🏠 PANEL INMOBILIARIO</div>
+    </div>
+    <div class="sidebar-fecha" id="fechaSidebar"></div>
+    <div class="sidebar-kpis" id="sidebarKpis"></div>
+    <div class="sidebar-nav">
+      <div class="nav-item active">📋 Cartera</div>
+      <div class="nav-item">🔔 Alertas</div>
+      <div class="nav-item">📄 Alquileres</div>
+      <div class="nav-item">👥 Corredores</div>
+    </div>
+  </aside>
 
-  <!-- KPIs DASHBOARD -->
-  <div class="stitle" style="margin-top:14px;">Dashboard general <span class="stitle-sub">resumen de la operación</span></div>
-  <div class="kpi-grid" id="kpiGrid"></div>
+  <!-- CONTENIDO -->
+  <main class="main-content">
 
-  <!-- DOS COLUMNAS: CARTERA + ALERTAS -->
-  <div class="two-col" style="margin-top:20px;">
-    <div>
-      <div class="stitle">Cartera de propiedades <span class="stitle-sub">(clic para editar)</span></div>
-      <div class="table-wrap">
-        <table class="prop-table">
-          <thead><tr>
-            <th>Dirección</th>
-            <th>Tipo</th>
-            <th>Precio</th>
-            <th>Estado</th>
-            <th>Corredor</th>
-            <th>Días</th>
-          </tr></thead>
-          <tbody id="propTbody"></tbody>
-        </table>
-        <div class="actions-bar">
-          <button class="btn-add" onclick="abrirModalProp(-1)">+ Agregar propiedad</button>
-        </div>
+    <div class="page-header">
+      <div>
+        <div class="page-title">Cartera de propiedades</div>
+        <div class="page-sub">Gestión completa de alquileres, ventas y administración</div>
+      </div>
+      <button class="btn-primary" onclick="abrirModalProp(-1)">+ Nueva propiedad</button>
+    </div>
+
+    <!-- PROPIEDADES -->
+    <div class="stitle">Propiedades activas</div>
+    <div class="props-grid" id="propsGrid"></div>
+
+    <!-- DOS COLUMNAS -->
+    <div class="two-col">
+      <div>
+        <div class="stitle" style="margin-top:20px;">Alertas y vencimientos</div>
+        <div class="alertas-wrap" id="alertasWrap"></div>
+        <div style="margin-top:8px;"><button class="btn-add" onclick="abrirModalAlerta(-1)">+ Nueva alerta</button></div>
+      </div>
+      <div>
+        <div class="stitle" style="margin-top:20px;">Corredores — operaciones del mes</div>
+        <div class="corr-grid" id="corrGrid"></div>
       </div>
     </div>
-    <div>
-      <div class="stitle">Alertas y vencimientos <span class="stitle-sub">semáforo de situaciones críticas</span></div>
-      <div class="alertas-list" id="alertasList"></div>
-      <div style="margin-top:8px;">
-        <button class="btn-add" onclick="abrirModalAlerta(-1)">+ Agregar alerta</button>
+
+    <!-- ALQUILERES -->
+    <div class="stitle" style="margin-top:20px;">Administración de alquileres</div>
+    <div class="alq-wrap">
+      <div class="alq-item-header">
+        <div class="alq-th">Propiedad / Inquilino</div>
+        <div class="alq-th" style="text-align:right;">Monto</div>
+        <div class="alq-th" style="text-align:center;">Próx. ICL</div>
+        <div class="alq-th" style="text-align:center;">Vence</div>
+        <div class="alq-th" style="text-align:center;">Est.</div>
       </div>
+      <div id="alqList"></div>
     </div>
-  </div>
+    <div style="margin-top:8px;"><button class="btn-add" onclick="abrirModalAlq(-1)">+ Nuevo contrato</button></div>
 
-  <!-- ADMINISTRACION ALQUILERES -->
-  <div class="stitle">Administración de alquileres <span class="stitle-sub">contratos activos — ajustes ICL y vencimientos</span></div>
-  <div class="alq-grid" id="alqGrid"></div>
-  <div style="margin-top:8px;">
-    <button class="btn-add" onclick="abrirModalAlq(-1)">+ Agregar contrato</button>
-  </div>
-
-  <!-- CORREDORES -->
-  <div class="stitle">Corredores <span class="stitle-sub">operaciones del mes</span></div>
-  <div class="corr-grid" id="corrGrid"></div>
-
+  </main>
 </div>
 
 <!-- MODAL PROPIEDAD -->
@@ -218,14 +284,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <!-- MODAL ALERTA -->
 <div class="moverlay" id="modalAlerta">
   <div class="modal">
-    <h3>Nueva alerta</h3>
+    <h3>Alerta</h3>
     <label>Descripción</label><input type="text" id="al-texto" placeholder="Ej: Contrato por vencer en 30 días">
-    <label>Detalle</label><input type="text" id="al-meta" placeholder="Ej: Propiedad: Lavalle 890 — Inquilino: García">
+    <label>Detalle</label><input type="text" id="al-meta" placeholder="Ej: Lavalle 890 — Familia García">
     <label>Nivel</label>
     <select id="al-nivel">
-      <option value="critico">Crítico (rojo)</option>
-      <option value="atencion">Atención (amarillo)</option>
-      <option value="info">Informativo (azul)</option>
+      <option value="critico">Crítico</option>
+      <option value="atencion">Atención</option>
+      <option value="info">Informativo</option>
     </select>
     <div class="mactions">
       <button class="mbtn-save" id="alertaSaveBtn">Guardar</button>
@@ -240,7 +306,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 const DIAS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const N=new Date();
-document.getElementById('fecha').textContent=DIAS[N.getDay()]+', '+N.getDate()+' de '+MES[N.getMonth()]+' de '+N.getFullYear();
+document.getElementById('fechaSidebar').textContent=DIAS[N.getDay()]+' '+N.getDate()+' de '+MES[N.getMonth()];
 
 // ── STORAGE ────────────────────────────────────────────
 function sto(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
@@ -268,7 +334,7 @@ const D_ALQUILERES=[
   {dir:'Olleros 2100, Colegiales',inq:'Lic. Bergman',monto:395000,ultimoIcl:'2026-03-15',proximoIcl:'2026-09-15',vencimiento:'2027-03-15',estado:'Vigente'},
 ];
 const D_ALERTAS=[
-  {texto:'Contrato por vencer en 11 días',meta:'Nazca 800, Flores — Inquilino: Familia Suárez — Vence: 30/06/2026',nivel:'critico'},
+  {texto:'Contrato por vencer en 11 días',meta:'Nazca 800, Flores — Familia Suárez — Vence: 30/06/2026',nivel:'critico'},
   {texto:'Ajuste ICL vence en 26 días',meta:'Mendoza 2800, Núñez — Próximo ajuste: 15/08/2026',nivel:'atencion'},
   {texto:'Propiedad sin movimiento hace 45 días',meta:'Cabildo 1520, Belgrano — USD 92.000 — Corredor: Martínez',nivel:'atencion'},
   {texto:'Local comercial sin consultas hace 30 días',meta:'Corrientes 4100, Almagro — $850.000/mes — Revisar precio',nivel:'atencion'},
@@ -282,54 +348,58 @@ const D_CORREDORES=[
   {nombre:'Diego López',ops:2},
 ];
 
-let props=gto('inm_props',D_PROPS);
-let alquileres=gto('inm_alq',D_ALQUILERES);
-let alertas=gto('inm_alertas',D_ALERTAS);
-let corredores=gto('inm_corr',D_CORREDORES);
+let props=gto('inm2_props',D_PROPS);
+let alquileres=gto('inm2_alq',D_ALQUILERES);
+let alertas=gto('inm2_alertas',D_ALERTAS);
+let corredores=gto('inm2_corr',D_CORREDORES);
 
-// ── KPIs ───────────────────────────────────────────────
-function renderKPIs(){
+// ── SIDEBAR KPIs ───────────────────────────────────────
+function renderSidebarKpis(){
   const total=props.length;
   const disponibles=props.filter(p=>p.estado==='Disponible').length;
   const alquiladas=props.filter(p=>p.estado==='Alquilada').length;
-  const reservadas=props.filter(p=>p.estado==='Reservada').length;
-  const vendidas=props.filter(p=>p.estado==='Vendida').length;
-  const alertasCrit=alertas.filter(a=>a.nivel==='critico').length;
-  const tiles=[
-    {count:total,label:'Propiedades totales',sub:'en cartera',color:'#16a34a'},
-    {count:disponibles,label:'Disponibles',sub:'para alquilar o vender',color:'#16a34a'},
-    {count:alquiladas,label:'Alquiladas',sub:'con contrato activo',color:'#2563eb'},
-    {count:reservadas,label:'Reservadas',sub:'en proceso de cierre',color:'#f59e0b'},
-    {count:vendidas,label:'Vendidas',sub:'este período',color:'#64748b'},
-    {count:alertasCrit,label:'Alertas críticas',sub:'requieren atención hoy',color:alertasCrit>0?'#dc2626':'#16a34a'},
+  const criticas=alertas.filter(a=>a.nivel==='critico').length;
+  const items=[
+    {num:total,lbl:'Propiedades',sub:'en cartera',cls:''},
+    {num:disponibles,lbl:'Disponibles',sub:'para operar',cls:''},
+    {num:alquiladas,lbl:'Alquiladas',sub:'con contrato',cls:'azul'},
+    {num:criticas,lbl:'Alertas críticas',sub:'atender hoy',cls:criticas>0?'rojo':''},
   ];
-  const g=document.getElementById('kpiGrid');
-  g.innerHTML=tiles.map(t=>`
-    <div class="kpi-tile" style="border-top-color:${t.color}">
-      <div class="kpi-count" style="color:${t.color}">${t.count}</div>
-      <div class="kpi-sub" style="color:${t.color}">${t.sub}</div>
-      <div class="kpi-label">${t.label}</div>
+  document.getElementById('sidebarKpis').innerHTML=items.map(i=>`
+    <div class="kpi-item ${i.cls}">
+      <div class="kpi-num">${i.num}</div>
+      <div class="kpi-lbl">${i.lbl}</div>
+      <div class="kpi-sub">${i.sub}</div>
     </div>`).join('');
 }
 
 // ── PROPIEDADES ────────────────────────────────────────
-const badgeClass={
-  'Disponible':'b-disponible','Reservada':'b-reservada',
-  'Alquilada':'b-alquilada','Vendida':'b-vendida','En tasación':'b-tasacion'
-};
+const tipoClass={Alquiler:'tb-alquiler',Venta:'tb-venta',Comercial:'tb-comercial','Alquiler temporal':'tb-temporal'};
+const tipoIcon={Alquiler:'🏠',Venta:'🏡',Comercial:'🏢','Alquiler temporal':'🛎️'};
+const badgeClass={'Disponible':'b-disponible','Reservada':'b-reservada','Alquilada':'b-alquilada','Vendida':'b-vendida','En tasación':'b-tasacion'};
+
 function renderProps(){
-  const tbody=document.getElementById('propTbody');
-  if(!props.length){tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:18px;color:#94a3b8;font-size:.75rem;">No hay propiedades cargadas</td></tr>';return;}
-  tbody.innerHTML=props.map((p,i)=>`
-    <tr style="cursor:pointer;" onclick="abrirModalProp(${i})">
-      <td><div style="font-weight:600;">${esc(p.dir)}</div>${p.notas?`<div style="font-size:.6rem;color:#94a3b8;">${esc(p.notas)}</div>`:''}
-      </td>
-      <td><span class="tipo-badge">${esc(p.tipo)}</span></td>
-      <td style="font-weight:700;">${esc(p.precio)}</td>
-      <td><span class="badge ${badgeClass[p.estado]||'b-disponible'}">${esc(p.estado)}</span></td>
-      <td>${esc(p.corredor)}</td>
-      <td style="text-align:center;color:${p.dias>60?'#dc2626':p.dias>30?'#f59e0b':'#475569'};font-weight:${p.dias>30?'700':'400'};">${p.estado==='Alquilada'||p.estado==='Vendida'?'—':p.dias}</td>
-    </tr>`).join('');
+  const g=document.getElementById('propsGrid');
+  if(!props.length){g.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:32px;color:var(--text-muted);font-size:.8rem;">No hay propiedades cargadas. Agregá la primera.</div>';return;}
+  g.innerHTML=props.map((p,i)=>`
+    <div class="prop-card" onclick="abrirModalProp(${i})">
+      <div class="prop-img">
+        <div class="prop-img-icon">${tipoIcon[p.tipo]||'🏠'}</div>
+        <span class="prop-tipo-badge ${tipoClass[p.tipo]||'tb-alquiler'}">${esc(p.tipo)}</span>
+        <span class="prop-estado-badge"><span class="badge ${badgeClass[p.estado]||'b-disponible'}">${esc(p.estado)}</span></span>
+      </div>
+      <div class="prop-body">
+        <div class="prop-dir">${esc(p.dir)}</div>
+        ${p.notas?`<div class="prop-notas">${esc(p.notas)}</div>`:''}
+        <div class="prop-precio">${esc(p.precio)}</div>
+        <div class="prop-footer">
+          <div class="prop-corredor">Corredor: <span>${esc(p.corredor)}</span></div>
+          ${p.estado!=='Alquilada'&&p.estado!=='Vendida'?
+            `<div class="prop-dias" style="color:${p.dias>60?'var(--rojo)':p.dias>30?'var(--amarillo)':'var(--text-muted)'};">${p.dias} días</div>`
+            :''}
+        </div>
+      </div>
+    </div>`).join('');
 }
 
 let editPropIdx=null;
@@ -359,38 +429,71 @@ document.getElementById('propSaveBtn').onclick=function(){
   };
   if(!obj.dir)return;
   if(editPropIdx>=0)props[editPropIdx]=obj;else props.push(obj);
-  sto('inm_props',props);renderProps();renderKPIs();closeModal('modalProp');
+  sto('inm2_props',props);renderProps();renderSidebarKpis();closeModal('modalProp');
 };
 document.getElementById('propDelBtn').onclick=function(){
   if(editPropIdx>=0&&confirm('¿Eliminar esta propiedad?')){
-    props.splice(editPropIdx,1);sto('inm_props',props);renderProps();renderKPIs();closeModal('modalProp');
+    props.splice(editPropIdx,1);sto('inm2_props',props);renderProps();renderSidebarKpis();closeModal('modalProp');
+  }
+};
+
+// ── ALERTAS ────────────────────────────────────────────
+const alertaIcon={critico:'🚨',atencion:'⚠️',info:'ℹ️'};
+function renderAlertas(){
+  const w=document.getElementById('alertasWrap');
+  if(!alertas.length){w.innerHTML='<div style="padding:18px;text-align:center;font-size:.75rem;color:var(--text-muted);">Sin alertas activas</div>';return;}
+  w.innerHTML=alertas.map((a,i)=>`
+    <div class="alerta-item" onclick="abrirModalAlerta(${i})">
+      <div class="alerta-icon ai-${a.nivel}">${alertaIcon[a.nivel]||'📌'}</div>
+      <div class="alerta-content">
+        <div class="alerta-text">${esc(a.texto)}</div>
+        <div class="alerta-meta">${esc(a.meta)}</div>
+      </div>
+      <span class="alerta-nivel an-${a.nivel}">${a.nivel}</span>
+    </div>`).join('');
+}
+
+let editAlertaIdx=null;
+function abrirModalAlerta(i){
+  editAlertaIdx=i;
+  const a=i>=0?alertas[i]:{texto:'',meta:'',nivel:'atencion'};
+  document.getElementById('al-texto').value=a.texto;
+  document.getElementById('al-meta').value=a.meta;
+  document.getElementById('al-nivel').value=a.nivel;
+  document.getElementById('alertaDelBtn').style.display=i>=0?'':'none';
+  document.getElementById('modalAlerta').classList.add('open');
+}
+document.getElementById('alertaSaveBtn').onclick=function(){
+  const obj={
+    texto:document.getElementById('al-texto').value.trim(),
+    meta:document.getElementById('al-meta').value.trim(),
+    nivel:document.getElementById('al-nivel').value,
+  };
+  if(!obj.texto)return;
+  if(editAlertaIdx>=0)alertas[editAlertaIdx]=obj;else alertas.push(obj);
+  sto('inm2_alertas',alertas);renderAlertas();renderSidebarKpis();closeModal('modalAlerta');
+};
+document.getElementById('alertaDelBtn').onclick=function(){
+  if(editAlertaIdx>=0&&confirm('¿Eliminar esta alerta?')){
+    alertas.splice(editAlertaIdx,1);sto('inm2_alertas',alertas);renderAlertas();renderSidebarKpis();closeModal('modalAlerta');
   }
 };
 
 // ── ALQUILERES ─────────────────────────────────────────
 const semColor={'Vigente':'sem-verde','Por vencer':'sem-amarillo','En renovación':'sem-amarillo','Vencido':'sem-rojo'};
 function renderAlquileres(){
-  const g=document.getElementById('alqGrid');
-  if(!alquileres.length){g.innerHTML='<div style="text-align:center;padding:18px;font-size:.75rem;color:#94a3b8;">No hay contratos cargados</div>';return;}
+  const g=document.getElementById('alqList');
+  if(!alquileres.length){g.innerHTML='<div style="padding:18px;text-align:center;font-size:.75rem;color:var(--text-muted);">No hay contratos cargados</div>';return;}
   g.innerHTML=alquileres.map((a,i)=>`
-    <div class="alq-item" style="cursor:pointer;" onclick="abrirModalAlq(${i})">
+    <div class="alq-item" onclick="abrirModalAlq(${i})">
       <div>
         <div class="alq-dir">${esc(a.dir)}</div>
         <div class="alq-inq">${esc(a.inq)}</div>
       </div>
-      <div>
-        <div class="alq-val">$${fmt(a.monto)}</div>
-        <div class="alq-val-label">por mes</div>
-      </div>
-      <div>
-        <div class="alq-fecha">${a.proximoIcl||'—'}</div>
-        <div class="alq-fecha-label">próximo ICL</div>
-      </div>
-      <div>
-        <div class="alq-fecha">${a.vencimiento||'—'}</div>
-        <div class="alq-fecha-label">vence contrato</div>
-      </div>
-      <div class="semaforo ${semColor[a.estado]||'sem-verde'}" title="${a.estado}"></div>
+      <div class="alq-val" style="text-align:right;">$${fmt(a.monto)}</div>
+      <div class="alq-fecha">${a.proximoIcl||'—'}</div>
+      <div class="alq-fecha">${a.vencimiento||'—'}</div>
+      <div><div class="semaforo ${semColor[a.estado]||'sem-verde'}" title="${a.estado}"></div></div>
     </div>`).join('');
 }
 
@@ -421,63 +524,28 @@ document.getElementById('alqSaveBtn').onclick=function(){
   };
   if(!obj.dir)return;
   if(editAlqIdx>=0)alquileres[editAlqIdx]=obj;else alquileres.push(obj);
-  sto('inm_alq',alquileres);renderAlquileres();closeModal('modalAlq');
+  sto('inm2_alq',alquileres);renderAlquileres();closeModal('modalAlq');
 };
 document.getElementById('alqDelBtn').onclick=function(){
   if(editAlqIdx>=0&&confirm('¿Eliminar este contrato?')){
-    alquileres.splice(editAlqIdx,1);sto('inm_alq',alquileres);renderAlquileres();closeModal('modalAlq');
-  }
-};
-
-// ── ALERTAS ────────────────────────────────────────────
-function renderAlertas(){
-  const g=document.getElementById('alertasList');
-  if(!alertas.length){g.innerHTML='<div style="text-align:center;padding:18px;font-size:.75rem;color:#94a3b8;">Sin alertas activas</div>';return;}
-  g.innerHTML=alertas.map((a,i)=>`
-    <div class="alerta-item ${a.nivel}" style="cursor:pointer;" onclick="abrirModalAlerta(${i})">
-      <div class="alerta-dot"></div>
-      <div>
-        <div class="alerta-text">${esc(a.texto)}</div>
-        <div class="alerta-meta">${esc(a.meta)}</div>
-      </div>
-    </div>`).join('');
-}
-
-let editAlertaIdx=null;
-function abrirModalAlerta(i){
-  editAlertaIdx=i;
-  const a=i>=0?alertas[i]:{texto:'',meta:'',nivel:'atencion'};
-  document.getElementById('al-texto').value=a.texto;
-  document.getElementById('al-meta').value=a.meta;
-  document.getElementById('al-nivel').value=a.nivel;
-  document.getElementById('alertaDelBtn').style.display=i>=0?'':'none';
-  document.getElementById('modalAlerta').classList.add('open');
-}
-document.getElementById('alertaSaveBtn').onclick=function(){
-  const obj={
-    texto:document.getElementById('al-texto').value.trim(),
-    meta:document.getElementById('al-meta').value.trim(),
-    nivel:document.getElementById('al-nivel').value,
-  };
-  if(!obj.texto)return;
-  if(editAlertaIdx>=0)alertas[editAlertaIdx]=obj;else alertas.push(obj);
-  sto('inm_alertas',alertas);renderAlertas();renderKPIs();closeModal('modalAlerta');
-};
-document.getElementById('alertaDelBtn').onclick=function(){
-  if(editAlertaIdx>=0&&confirm('¿Eliminar esta alerta?')){
-    alertas.splice(editAlertaIdx,1);sto('inm_alertas',alertas);renderAlertas();renderKPIs();closeModal('modalAlerta');
+    alquileres.splice(editAlqIdx,1);sto('inm2_alq',alquileres);renderAlquileres();closeModal('modalAlq');
   }
 };
 
 // ── CORREDORES ─────────────────────────────────────────
 function renderCorredores(){
   const g=document.getElementById('corrGrid');
-  g.innerHTML=corredores.map(c=>`
-    <div class="corr-tile">
-      <div class="corr-nombre">${esc(c.nombre)}</div>
-      <div class="corr-ops">${c.ops}</div>
-      <div class="corr-label">operaciones del mes</div>
-    </div>`).join('');
+  g.innerHTML=corredores.map(c=>{
+    const iniciales=c.nombre.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    return `<div class="corr-card">
+      <div class="corr-avatar">${iniciales}</div>
+      <div class="corr-info">
+        <div class="corr-nombre">${esc(c.nombre)}</div>
+        <div class="corr-ops">${c.ops} operaciones</div>
+      </div>
+      <div class="corr-num">${c.ops}</div>
+    </div>`;
+  }).join('');
 }
 
 // ── MODAL HELPER ───────────────────────────────────────
@@ -487,10 +555,10 @@ document.querySelectorAll('.moverlay').forEach(m=>{
 });
 
 // ── INIT ───────────────────────────────────────────────
-renderKPIs();
+renderSidebarKpis();
 renderProps();
-renderAlquileres();
 renderAlertas();
+renderAlquileres();
 renderCorredores();
 </script>
 </body>
