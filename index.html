@@ -172,10 +172,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="sidebar-fecha" id="fechaSidebar"></div>
     <div class="sidebar-kpis" id="sidebarKpis"></div>
     <div class="sidebar-nav">
-      <div class="nav-item active">📋 Cartera</div>
-      <div class="nav-item">🔔 Alertas</div>
-      <div class="nav-item">📄 Alquileres</div>
-      <div class="nav-item">👥 Corredores</div>
+      <div class="nav-item active" onclick="navTo('secCartera',this)">📋 Cartera</div>
+      <div class="nav-item" onclick="navTo('secAlertas',this)">🔔 Alertas</div>
+      <div class="nav-item" onclick="navTo('secAlquileres',this)">📄 Alquileres</div>
+      <div class="nav-item" onclick="navTo('secCorredores',this)">👥 Corredores</div>
     </div>
   </aside>
 
@@ -191,35 +191,49 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
 
     <!-- PROPIEDADES -->
-    <div class="stitle">Propiedades activas</div>
-    <div class="props-grid" id="propsGrid"></div>
+    <div id="secCartera">
+      <div class="stitle">Propiedades activas</div>
+      <div class="props-grid" id="propsGrid"></div>
+    </div>
 
     <!-- DOS COLUMNAS -->
-    <div class="two-col">
+    <div class="two-col" id="secAlertas">
       <div>
         <div class="stitle" style="margin-top:20px;">Alertas y vencimientos</div>
         <div class="alertas-wrap" id="alertasWrap"></div>
         <div style="margin-top:8px;"><button class="btn-add" onclick="abrirModalAlerta(-1)">+ Nueva alerta</button></div>
       </div>
-      <div>
+      <div id="secCorredores">
         <div class="stitle" style="margin-top:20px;">Corredores — operaciones del mes</div>
         <div class="corr-grid" id="corrGrid"></div>
       </div>
     </div>
 
     <!-- ALQUILERES -->
-    <div class="stitle" style="margin-top:20px;">Administración de alquileres</div>
-    <div class="alq-wrap">
-      <div class="alq-item-header">
-        <div class="alq-th">Propiedad / Inquilino</div>
-        <div class="alq-th" style="text-align:right;">Monto</div>
-        <div class="alq-th" style="text-align:center;">Próx. ICL</div>
-        <div class="alq-th" style="text-align:center;">Vence</div>
-        <div class="alq-th" style="text-align:center;">Est.</div>
+    <div id="secAlquileres">
+      <div class="stitle" style="margin-top:20px;">Administración de alquileres</div>
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;align-items:start;">
+        <div>
+          <div class="alq-wrap">
+            <div class="alq-item-header">
+              <div class="alq-th">Propiedad / Inquilino</div>
+              <div class="alq-th" style="text-align:right;">Monto</div>
+              <div class="alq-th" style="text-align:center;">Próx. ICL</div>
+              <div class="alq-th" style="text-align:center;">Vence</div>
+              <div class="alq-th" style="text-align:center;">Est.</div>
+            </div>
+            <div id="alqList"></div>
+          </div>
+          <div style="margin-top:8px;"><button class="btn-add" onclick="abrirModalAlq(-1)">+ Nuevo contrato</button></div>
+        </div>
+        <div>
+          <div class="alq-wrap" id="alqResumen" style="padding:16px;">
+            <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);margin-bottom:12px;">Resumen financiero</div>
+            <div id="alqResumenContent"></div>
+          </div>
+        </div>
       </div>
-      <div id="alqList"></div>
     </div>
-    <div style="margin-top:8px;"><button class="btn-add" onclick="abrirModalAlq(-1)">+ Nuevo contrato</button></div>
 
   </main>
 </div>
@@ -548,6 +562,41 @@ function renderCorredores(){
   }).join('');
 }
 
+// ── NAVEGACIÓN ─────────────────────────────────────────
+function navTo(secId, el){
+  // Scroll a la sección
+  const sec=document.getElementById(secId);
+  if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
+  // Actualizar nav activo
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(el) el.classList.add('active');
+}
+
+// ── RESUMEN FINANCIERO ALQUILERES ──────────────────────
+function renderResumenAlq(){
+  const total=alquileres.reduce((s,a)=>s+(Number(a.monto)||0),0);
+  const porVencer=alquileres.filter(a=>a.estado==='Por vencer').length;
+  const vencidos=alquileres.filter(a=>a.estado==='Vencido').length;
+  const proxIcl=alquileres.filter(a=>{
+    if(!a.proximoIcl)return false;
+    const d=new Date(a.proximoIcl);
+    const hoy=new Date();
+    const diff=(d-hoy)/(1000*60*60*24);
+    return diff>=0&&diff<=60;
+  }).length;
+  const items=[
+    {label:'Facturación mensual total',val:'$'+Number(total).toLocaleString('es-AR'),color:'var(--verde)'},
+    {label:'Contratos por vencer',val:porVencer,color:porVencer>0?'var(--amarillo)':'var(--verde)'},
+    {label:'Contratos vencidos',val:vencidos,color:vencidos>0?'var(--rojo)':'var(--verde)'},
+    {label:'Ajustes ICL próximos 60 días',val:proxIcl,color:proxIcl>0?'var(--amarillo)':'var(--text-muted)'},
+  ];
+  document.getElementById('alqResumenContent').innerHTML=items.map(i=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+      <span style="font-size:.68rem;color:var(--text-soft);">${i.label}</span>
+      <span style="font-size:.82rem;font-weight:800;color:${i.color};">${i.val}</span>
+    </div>`).join('');
+}
+
 // ── MODAL HELPER ───────────────────────────────────────
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.moverlay').forEach(m=>{
@@ -559,6 +608,7 @@ renderSidebarKpis();
 renderProps();
 renderAlertas();
 renderAlquileres();
+renderResumenAlq();
 renderCorredores();
 </script>
 </body>
