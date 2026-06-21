@@ -367,7 +367,7 @@ let alquileres=gto('inm2_alq',D_ALQUILERES);
 let alertas=gto('inm2_alertas',D_ALERTAS);
 let corredores=gto('inm2_corr',D_CORREDORES);
 
-// ── SIDEBAR KPIs ───────────────────────────────────────
+// ── SIDEBAR KPIs ─────────────────────────────────────────────
 function renderSidebarKpis(){
   const total=props.length;
   const disponibles=props.filter(p=>p.estado==='Disponible').length;
@@ -387,14 +387,14 @@ function renderSidebarKpis(){
     </div>`).join('');
 }
 
-// ── PROPIEDADES ────────────────────────────────────────
+// ── PROPIEDADES ───────────────────────────────────────────
 const tipoClass={Alquiler:'tb-alquiler',Venta:'tb-venta',Comercial:'tb-comercial','Alquiler temporal':'tb-temporal'};
-const tipoIcon={Alquiler:'🏠',Venta:'🏡',Comercial:'🏢','Alquiler temporal':'🛎️'};
+const tipoIcon={Alquiler:'🏠',Venta:'🏡',Comercial:'🏢','Alquiler temporal':'🛜️'};
 const badgeClass={'Disponible':'b-disponible','Reservada':'b-reservada','Alquilada':'b-alquilada','Vendida':'b-vendida','En tasación':'b-tasacion'};
 
 function renderProps(){
   const g=document.getElementById('propsGrid');
-  if(!props.length){g.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:32px;color:var(--text-muted);font-size:.8rem;">No hay propiedades cargadas. Agregá la primera.</div>';return;}
+  if(!props.length){g.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:32px;color:var(--text-muted);font-size:.8rem;">No hay propiedades disponibles en este momento</div>';return;}
   g.innerHTML=props.map((p,i)=>`
     <div class="prop-card" onclick="abrirModalProp(${i})">
       <div class="prop-img">
@@ -451,11 +451,11 @@ document.getElementById('propDelBtn').onclick=function(){
   }
 };
 
-// ── ALERTAS ────────────────────────────────────────────
+// ── ALERTAS ─────────────────────────────────────────────
 const alertaIcon={critico:'🚨',atencion:'⚠️',info:'ℹ️'};
 function renderAlertas(){
   const w=document.getElementById('alertasWrap');
-  if(!alertas.length){w.innerHTML='<div style="padding:18px;text-align:center;font-size:.75rem;color:var(--text-muted);">Sin alertas activas</div>';return;}
+  if(!alertas.length){w.innerHTML='<div style="padding:18px;text-align:center;font-size:.75rem;color:var(--text-muted);">No hay alertas activas. Todo está al día</div>';return;}
   w.innerHTML=alertas.map((a,i)=>`
     <div class="alerta-item" onclick="abrirModalAlerta(${i})">
       <div class="alerta-icon ai-${a.nivel}">${alertaIcon[a.nivel]||'📌'}</div>
@@ -493,11 +493,11 @@ document.getElementById('alertaDelBtn').onclick=function(){
   }
 };
 
-// ── ALQUILERES ─────────────────────────────────────────
+// ── ALQUILERES ─────────────────────────────────────────────
 const semColor={'Vigente':'sem-verde','Por vencer':'sem-amarillo','En renovación':'sem-amarillo','Vencido':'sem-rojo'};
 function renderAlquileres(){
   const g=document.getElementById('alqList');
-  if(!alquileres.length){g.innerHTML='<div style="padding:18px;text-align:center;font-size:.75rem;color:var(--text-muted);">No hay contratos cargados</div>';return;}
+  if(!alquileres.length){g.innerHTML='<div style="padding:18px;text-align:center;font-size:.75rem;color:var(--text-muted);">No hay contratos de alquiler activos cargados</div>';return;}
   g.innerHTML=alquileres.map((a,i)=>`
     <div class="alq-item" onclick="abrirModalAlq(${i})">
       <div>
@@ -546,9 +546,10 @@ document.getElementById('alqDelBtn').onclick=function(){
   }
 };
 
-// ── CORREDORES ─────────────────────────────────────────
+// ── CORREDORES ────────────────────────────────────────────
 function renderCorredores(){
   const g=document.getElementById('corrGrid');
+  if(!corredores.length){g.innerHTML='<div style="grid-column:1/-1;padding:18px;text-align:center;font-size:.75rem;color:var(--text-muted);">No hay operaciones registradas este mes</div>';return;}
   g.innerHTML=corredores.map(c=>{
     const iniciales=c.nombre.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
     return `<div class="corr-card">
@@ -562,7 +563,7 @@ function renderCorredores(){
   }).join('');
 }
 
-// ── NAVEGACIÓN ─────────────────────────────────────────
+// ── NAVEGACIÓN ────────────────────────────────────────────
 function navTo(secId, el){
   // Scroll a la sección
   const sec=document.getElementById(secId);
@@ -572,7 +573,7 @@ function navTo(secId, el){
   if(el) el.classList.add('active');
 }
 
-// ── RESUMEN FINANCIERO ALQUILERES ──────────────────────
+// ── RESUMEN FINANCIERO ALQUILERES ──────────────────────────────
 function renderResumenAlq(){
   const total=alquileres.reduce((s,a)=>s+(Number(a.monto)||0),0);
   const porVencer=alquileres.filter(a=>a.estado==='Por vencer').length;
