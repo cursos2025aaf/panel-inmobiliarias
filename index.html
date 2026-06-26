@@ -554,13 +554,14 @@ function renderCorredores(){
   if(!corredores.length){g.innerHTML='<div style="grid-column:1/-1;padding:18px;text-align:center;font-size:.75rem;color:var(--text-muted);">No hay operaciones registradas este mes</div>';return;}
   g.innerHTML=corredores.map(c=>{
     const iniciales=c.nombre.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+    const ops=props.filter(p=>c.nombre.includes(p.corredor)).length;
     return `<div class="corr-card">
       <div class="corr-avatar">${iniciales}</div>
       <div class="corr-info">
         <div class="corr-nombre">${esc(c.nombre)}</div>
-        <div class="corr-ops">${c.ops} operaciones</div>
+        <div class="corr-ops">${ops} operaciones</div>
       </div>
-      <div class="corr-num">${c.ops}</div>
+      <div class="corr-num">${ops}</div>
     </div>`;
   }).join('');
 }
